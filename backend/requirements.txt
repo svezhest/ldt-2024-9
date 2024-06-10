@@ -1,1 +1,3 @@
 fastapi
+pydantic-extra-types
+email-validator
