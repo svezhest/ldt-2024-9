@@ -2,7 +2,8 @@ import datetime
 from pydantic import BaseModel, EmailStr
 from pydantic_extra_types.phone_numbers import PhoneNumber
 
-from backend.types.schedule import WorkStatus
+from mytypes.workload import WorkDayResults
+from mytypes.schedule import WorkStatus
 
 
 class DoctorInfo(BaseModel):
@@ -17,3 +18,8 @@ class DoctorInfo(BaseModel):
 class DoctorWorkStatus(BaseModel):
     id: int
     status: WorkStatus
+
+
+class DoctorDayResults(BaseModel):
+    id: int
+    results: WorkDayResults

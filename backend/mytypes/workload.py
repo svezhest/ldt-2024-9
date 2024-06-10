@@ -1,3 +1,4 @@
+import datetime
 from enum import Enum
 
 from pydantic import BaseModel
@@ -16,6 +17,11 @@ class WorkloadType(Enum):
     FLUOROGRAPHY = 10
 
 
+def parse_workload_type(workload_type: str):
+    workload_type = workload_type.upper().strip()
+    return WorkloadType[workload_type]
+
+
 class WorkloadEntry(BaseModel):
     amount: int
     year: int
@@ -27,6 +33,11 @@ class Workload(WorkloadEntry):
     is_predicted: bool
 
 
-def parse_workload_type(workload_type: str):
-    workload_type = workload_type.upper().strip()
-    return WorkloadType[workload_type]
+class WorkResult(BaseModel):
+    amount: int
+    workload_type: WorkloadType
+
+
+class WorkDayResults(BaseModel):
+    results_by_type: list[WorkResult]
+    date: datetime.date
