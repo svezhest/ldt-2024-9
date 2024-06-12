@@ -1,19 +1,19 @@
 
 import datetime
 from enum import Enum
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
-class WorkStatus(Enum):
-    WORKING = 1
+class WorkStatus(str, Enum):
+    WORKING = 'working'
     # работает
-    BREAK = 2
+    BREAK = 'break'
     # отдых
-    HOME = 3
+    HOME = 'home'
     # закончилось рабочее время
-    VACATION = 4
+    VACATION = 'vacation'
     # в отпуске
-    FORCE_MAJEURE = 5
+    FORCE_MAJEURE = 'force_majeure'
     # форс мажор, не может работать
 
 

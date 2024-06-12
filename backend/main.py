@@ -4,8 +4,10 @@ from typing import Optional
 from fastapi import FastAPI
 from fastapi.params import Body
 
-from mytypes.schedule import DaySchedule, Interval, Schedule, WorkStatus
-from mytypes.workload import WorkDayResults, WorkResult, Workload, WorkloadEntry, WorkloadType, parse_workload_type
+from schemas.doctors import DoctorInfo
+from schemas.schedule import DaySchedule, Interval, Schedule, WorkStatus
+from schemas.skills import Skills
+from schemas.workload import WorkDayResults, WorkResult, Workload, WorkloadEntry, WorkloadType, parse_workload_type
 
 app = FastAPI()
 
@@ -126,7 +128,8 @@ async def get_default_schedule(rate: float = 1.0) -> Schedule:
         intervals.append(
             Interval(
                 start_time=start_time,
-                end_time=(datetime.datetime.combine(datetime.date(1,1,1), start_time) + datetime.timedelta(hours=work_hours)).time(),
+                end_time=(datetime.datetime.combine(datetime.date(
+                    1, 1, 1), start_time) + datetime.timedelta(hours=work_hours)).time(),
                 status=WorkStatus.WORKING
             )
         )
@@ -148,3 +151,23 @@ async def get_default_schedule(rate: float = 1.0) -> Schedule:
 @app.get("/schedule/{doctor_id}")
 async def get_schedule(doctor_id: int, from_date: datetime.date, to_date: datetime.date) -> Schedule:
     return Schedule(doctor_id=doctor_id, schedule=[])
+
+# =====
+# ЖИЗНЕННО ВАЖНЫЙ НАБОР
+# =====
+
+
+@app.get("/doctors/{doctor_id}")
+async def get_doctor(doctor_id: int) -> DoctorInfo:
+    return DoctorInfo(
+        id=0,
+        full_name='Иванов Иван Иванович',
+        date_of_birth=datetime.date(year=1990, month=1, day=1),
+        phone_number='+79991234567',
+        email='ivanov@example.org',
+        position='Стажер',
+        skills=Skills(
+            primary_skill=WorkloadType.FLUOROGRAPHY,
+            secondary_skills=[]
+        )
+    )

@@ -1,5 +1,5 @@
 from typing import Optional
-from backend.types.workload import Workload, WorkloadType
+from schemas.workload import Workload, WorkloadType
 
 
 def predict(workload_type: Optional[WorkloadType]) -> list[Workload]:
