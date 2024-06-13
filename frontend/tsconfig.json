@@ -9,7 +9,12 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
     "outDir": "dist",
     "module": "CommonJS",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@ui-kit/*": ["./src/ui-kit/*"],
+      "@ui-kit": ["./src/ui-kit/index"]
+    }
   },
   "include": ["src/**/*", "**/*.ts", "**/*.tsx", "server.ts"]
 }
