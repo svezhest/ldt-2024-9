@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "ldt"
+version = "0.1.0"
+description = ""
+authors = ["svezhest <a.s.kryukov@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = {extras = ["all"], version = "^0.111.0"}
+sqlalchemy = "^2.0.30"
+phonenumbers = "^8.13.38"
+
+
+[tool.poetry.group.dev.dependencies]
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
