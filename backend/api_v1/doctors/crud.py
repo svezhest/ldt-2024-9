@@ -12,7 +12,7 @@ from api_v1.doctors.skills import Skills
 from core.models import Doctor
 
 from .schemas import DoctorCreate, DoctorUpdate, DoctorUpdatePartial
-
+from auth import get_password_hash
 
 async def get_doctors(session: AsyncSession) -> list[Doctor]:
     stmt = select(Doctor).order_by(Doctor.id)
@@ -40,8 +40,9 @@ def deserialize_skills(skills: str) -> Skills:
 
 
 async def create_doctor(session: AsyncSession, doctor_in: DoctorCreate) -> Doctor:
-    doctor = Doctor(**doctor_in.model_dump(exclude='skills'),
-                    skills=serialize_skills(doctor_in.skills))
+    doctor = Doctor(**doctor_in.model_dump(exclude=['skills', 'password']),
+                    skills=serialize_skills(doctor_in.skills),
+                    hashed_password=get_password_hash(doctor_in.password))
     session.add(doctor)
     await session.commit()
     # await session.refresh(doctor)
@@ -61,6 +62,17 @@ async def update_doctor(
     await session.commit()
     doctor.skills = deserialize_skills(doctor.skills)
     return doctor
+
+async def change_password_doctor(
+    session: AsyncSession,
+    doctor: Doctor,
+    password: str
+) -> Doctor:
+    doctor.hashed_password = get_password_hash(password)
+    await session.commit()
+    doctor.skills = deserialize_skills(doctor.skills)
+    return doctor
+
 
 
 async def delete_doctor(

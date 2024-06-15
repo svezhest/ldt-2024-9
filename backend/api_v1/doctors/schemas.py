@@ -14,6 +14,7 @@ class DoctorBase(BaseModel):
     position: str
     specialization: str
     skills: Skills
+    password: str | None = None
 
 
 class DoctorCreate(DoctorBase):

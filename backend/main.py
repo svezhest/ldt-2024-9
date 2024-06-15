@@ -7,7 +7,7 @@ import uvicorn
 from core.config import settings
 from core.models import Base, db_helper
 from api_v1 import router as router_v1
-
+from auth import router as auth_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -19,6 +19,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 app.include_router(router=router_v1, prefix=settings.api_v1_prefix)
+app.include_router(router=auth_router)
 
 
 @app.get("/")
@@ -26,6 +27,8 @@ def hello_index():
     return {
         "message": "Победа или смерть",
     }
+
+
 
 
 if __name__ == "__main__":
