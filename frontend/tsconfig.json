@@ -16,5 +16,5 @@
       "@ui-kit": ["./src/ui-kit/index"]
     }
   },
-  "include": ["src/**/*", "**/*.ts", "**/*.tsx", "server.ts"]
+  "include": ["src/**/*", "**/*.ts", "**/*.tsx", "server.ts", "dist/server.js"]
 }

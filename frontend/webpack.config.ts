@@ -1,6 +1,7 @@
 import path from 'path'
 import {Configuration} from 'webpack'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 type CustomDevServer = {
   historyApiFallback: boolean
@@ -13,6 +14,7 @@ interface CustomWebpackConfiguration extends Configuration {
 const config: CustomWebpackConfiguration = {
   mode: (process.env.NODE_ENV as 'production' | 'development' | undefined) ?? 'production',
   entry: './src/index.tsx',
+  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -30,15 +32,15 @@ const config: CustomWebpackConfiguration = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
   },
   devServer: {
     historyApiFallback: true,
   },
   plugins: [
-    new CopyWebpackPlugin({
-      patterns: [{from: 'public'}],
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'public/index.html'),
     }),
   ],
 }

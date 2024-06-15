@@ -1,8 +1,13 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {AuthFirst, AuthSecond, Main, Calendar, Profile, Job, Detect, Doctors, Absence, Settings} from './pages'
 import {Route, Routes} from 'react-router-dom'
 
 export const App = () => {
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log('render')
+  }, [])
+
   return (
     <Routes>
       <Route path='/' element={<AuthFirst />} />
