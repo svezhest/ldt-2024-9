@@ -17,3 +17,6 @@ class Doctor(Base):
     hashed_password: Mapped[str]
     role: Mapped[str]
     account_status: Mapped[str]
+    start_hours: Mapped[str]
+    shifting_type: Mapped[str]
+    hours_per_week: Mapped[str]

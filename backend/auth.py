@@ -16,7 +16,6 @@ from core.models import db_helper
 from core.models.doctor import Doctor
 
 
-
 SECRET_KEY = "n=Vtf4pU#N@cy6']CxEAZLb`9mGJ,X"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
@@ -24,9 +23,11 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 router = APIRouter(tags=["auth"])
 
+
 def format_phone_number(phone_number: str) -> str:
     parsed_number = phonenumbers.parse(phone_number, None)
-    formatted_number = phonenumbers.format_number(parsed_number, phonenumbers.PhoneNumberFormat.INTERNATIONAL)
+    formatted_number = phonenumbers.format_number(
+        parsed_number, phonenumbers.PhoneNumberFormat.INTERNATIONAL)
     return 'tel:' + formatted_number.replace(" ", "-")
 
 
@@ -77,11 +78,12 @@ async def authenticate_doctor(login: str, password: str, session: AsyncSession):
         return False
     return user
 
+
 async def authenticate_doctor_by_id(id: int, session: AsyncSession):
     # TEST
     print("ID=", id)
     if id == 0:
-        return Doctor(id=0, role='admin', account_status='ok', full_name='.test', date_of_birth='2000-01-01', position='i don\'t exist', specialization='i don\'t exist', phone_number='+79991234567', email='user@example.com', skills=Skills(primary_skill='ct', secondary_skills=[]))
+        return Doctor(id=0, role='admin', account_status='ok', full_name='.test', date_of_birth='2000-01-01', position='i don\'t exist', specialization='i don\'t exist', phone_number='+79991234567', email='user@example.com', skills=Skills(primary_skill='ct', secondary_skills=[]),     start_hours='08:00', shifting_type='2/2', hours_per_week='20')
     # END TEST
     result = await session.execute(select(Doctor).filter(Doctor.id == id))
     user = result.scalars().first()
@@ -89,7 +91,6 @@ async def authenticate_doctor_by_id(id: int, session: AsyncSession):
         return False
 
     return user
-
 
 
 @router.post("/token", response_model=Token)

@@ -22,52 +22,21 @@ from pydantic import BaseModel, ConfigDict
 #     return WorkStatus[status]
 
 
-# class Interval(BaseModel):
-#     '''
-#     Примеры:
-
-#     Работник в отпуске:
-#     {
-#         start_time: 00:00:01
-#         end_time: 23:59:59
-#         status: VACATION
-#     },
-
-#     Обычный рабочий день:
-#     {
-#         start_time: 08:00:00
-#         end_time: 13:30:00
-#         status: WORKING
-#     },
-
-#     {
-#         start_time: 13:30:00
-#         end_time: 14:00:00
-#         status: BREAK
-#     },
-
-#     {
-#         start_time: 14:00:00
-#         end_time: 17:30:00
-#         status: WORKING
-#     },
-
-#     '''
-#     start_time: datetime.time
-#     end_time: datetime.time
-#     status: WorkStatus
+class Interval(BaseModel):
+    start_time: datetime.time
+    end_time: datetime.time
+    is_break: bool
 
 
-# class DaySchedule(BaseModel):
-#     intervals: list[Interval]
-#     date: datetime.date
-#     total_break_time: datetime.timedelta
-#     total_working_time: datetime.timedelta
+class DaySchedule(BaseModel):
+    intervals: list[Interval]
+    date: datetime.date
+    total_break_time: datetime.timedelta
+    total_working_time: datetime.timedelta
 
 
-# class Schedule(BaseModel):
-#     doctor_id: int
-#     schedule: list[DaySchedule]
+class Schedule(BaseModel):
+    schedule: list[DaySchedule]
 
 class WorkStatus(str, Enum):
     WORKING = 'working' 
@@ -94,7 +63,7 @@ class HoursPerWeek(Enum):
 class ScheduleMixin(BaseModel):
     start_hours: StartHours
     shifting_type: ShiftingType
-    hours_per_weel: HoursPerWeek
+    hours_per_week: HoursPerWeek
 
 class ScheduleEvent(BaseModel):
     doctor_id: int
