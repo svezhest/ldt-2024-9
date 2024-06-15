@@ -15,3 +15,5 @@ class Doctor(Base):
     specialization: Mapped[str]
     skills: Mapped[str]  # побьем сроку по ', '
     hashed_password: Mapped[str]
+    role: Mapped[str]
+    account_status: Mapped[str]

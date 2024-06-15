@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 
 from pydantic_core import PydanticCustomError
 from sqlalchemy import select
+from api_v1.doctors.skills import Skills
 from auth_token import Token
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic_extra_types.phone_numbers import PhoneNumber
@@ -54,7 +55,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 async def authenticate_doctor(login: str, password: str, session: AsyncSession):
     # TEST
     if login == 'by_sheer_willpower':
-        return Doctor(id=0)
+        return Doctor(id=0, role='admin', status='ok')
     # END TEST
     phone_number = None
     try:
@@ -80,7 +81,7 @@ async def authenticate_doctor_by_id(id: int, session: AsyncSession):
     # TEST
     print("ID=", id)
     if id == 0:
-        return Doctor()
+        return Doctor(id=0, role='admin', account_status='ok', full_name='.test', date_of_birth='2000-01-01', position='i don\'t exist', specialization='i don\'t exist', phone_number='+79991234567', email='user@example.com', skills=Skills(primary_skill='ct', secondary_skills=[]))
     # END TEST
     result = await session.execute(select(Doctor).filter(Doctor.id == id))
     user = result.scalars().first()
