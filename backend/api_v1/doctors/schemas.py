@@ -5,6 +5,7 @@ from pydantic_extra_types.phone_numbers import PhoneNumber
 
 from api_v1.doctors.roles import AccountStatus, Role
 from api_v1.doctors.skills import Skills
+from api_v1.schedule.schemas import ScheduleMixin
 
 
 # class DoctorBase(BaseModel):
@@ -26,7 +27,7 @@ class DoctorPublicInfo(BaseModel):
     specialization: str
 
 
-class DoctorConfidentInfo(DoctorPublicInfo):
+class DoctorConfidentInfo(DoctorPublicInfo, ScheduleMixin):
     phone_number: PhoneNumber
     email: EmailStr
     skills: Skills
