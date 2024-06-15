@@ -12,4 +12,5 @@ class Doctor(Base):
     phone_number: Mapped[str]
     email: Mapped[str]
     position: Mapped[str]
+    specialization: Mapped[str]
     skills: Mapped[str] # побьем сроку по ', '

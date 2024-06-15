@@ -12,6 +12,7 @@ class DoctorBase(BaseModel):
     phone_number: PhoneNumber
     email: EmailStr
     position: str
+    specialization: str
     skills: Skills
 
 
@@ -29,6 +30,7 @@ class DoctorUpdatePartial(DoctorCreate):
     phone_number: PhoneNumber | None = None
     email: EmailStr | None = None
     position: str | None = None
+    specialization: str | None = None
     skills: Skills | None = None
 
 
