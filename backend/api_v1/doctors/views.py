@@ -5,7 +5,7 @@ import jwt
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from api_v1.doctors.roles import Role
-from api_v1.schedule.schemas import DaySchedule, Interval, Schedule
+from api_v1.schedule.schemas import DaySchedule, Interval, Schedule, StartHours
 from auth import authenticate, oauth2_scheme
 from authorize import authorize
 from core.models import db_helper
@@ -123,21 +123,30 @@ async def delete_doctor(
 
 def is_weekend(day: datetime.date):
     # TODO: production calendar
-    return day.weekday > 4
+    return day.weekday() > 4
 
 
 def add_hours(start: datetime.time, hours_delta: float) -> datetime.time:
     return (datetime.datetime.combine(datetime.date(
-        1, 1, 1), start) + datetime.timedelta(hours=hours_delta)).time(),
+        1, 1, 1), start) + datetime.timedelta(hours=hours_delta)).time()
 
 
-def generate_schedule(starting_hours: datetime.time, duration: int):
+def generate_schedule(starting_hours: StartHours, duration: int):
     if duration >= 11:
         break_time = 1.
     else:
         break_time = 0.5
 
     first_half = duration // 2
+
+    if starting_hours == '08:00':
+        starting_hours = datetime.time(hour=8)
+    elif starting_hours == '09:00':
+        starting_hours = datetime.time(hour=9)
+    elif starting_hours == '14:00':
+        starting_hours = datetime.time(hour=14)
+    elif starting_hours == '20:00':
+        starting_hours = datetime.time(hour=20)
 
     return DaySchedule(
         intervals=[
@@ -154,7 +163,7 @@ def generate_schedule(starting_hours: datetime.time, duration: int):
             Interval(
                 start_time=add_hours(starting_hours, first_half + break_time),
                 end_time=add_hours(starting_hours, duration + break_time),
-                is_break=True
+                is_break=False
             ),
         ],
         date=datetime.date.today(),
@@ -163,11 +172,10 @@ def generate_schedule(starting_hours: datetime.time, duration: int):
     )
 
 
-@router.get("/{doctor_id}/schedule")
+@router.get("/{doctor_id}/schedule", response_model=Schedule)
 async def get_schedule(
     date_from: datetime.date,
     date_to: datetime.date,
-    response_model=Schedule,
     doctor: Doctor = Depends(doctor_by_id),
     token: str = Depends(oauth2_scheme),
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
@@ -189,12 +197,12 @@ async def get_schedule(
 
     if doctor.shifting_type == '5/2':
         if doctor.hours_per_week == 20:
-            current_date = date_from - \
-                datetime.timedelta(days=date_from.weekday)
+            current_date = date_from + \
+                datetime.timedelta(days=-date_from.weekday())
             while current_date <= date_to:
-                if not is_weekend(current_date) and current_date >= date_from and current_date.weekday < 3:
+                if not is_weekend(current_date) and current_date >= date_from and current_date.weekday() < 3:
                     day_schedule = generate_schedule(doctor.start_hours,
-                                                     7 if current_date.weekday < 2 else 6)
+                                                     7 if current_date.weekday() < 2 else 6)
                     day_schedule.date = current_date
                     res.append(day_schedule)
                 current_date += datetime.timedelta(days=1)

@@ -38,16 +38,19 @@ class DaySchedule(BaseModel):
 class Schedule(BaseModel):
     schedule: list[DaySchedule]
 
+
 class WorkStatus(str, Enum):
-    WORKING = 'working' 
+    WORKING = 'working'
     HOME = 'home'
     VACATION = 'vacation'
     FORCE_MAJEURE = 'force_majeure'
     OVERTIME = 'overtime'
 
+
 class ShiftingType(str, Enum):
     FIVE_TWO = '5/2'
     TWO_TWO = '2/2'
+
 
 class StartHours(str, Enum):
     EIGHT = '08:00'
@@ -55,15 +58,12 @@ class StartHours(str, Enum):
     TWO_PM = '14:00'
     EIGHT_PM = '20:00'
 
-class HoursPerWeek(Enum):
-    TWENTY = 20
-    THIRTY = 30
-    FOURTY = 40
 
 class ScheduleMixin(BaseModel):
     start_hours: StartHours
     shifting_type: ShiftingType
-    hours_per_week: HoursPerWeek
+    hours_per_week: int
+
 
 class ScheduleEvent(BaseModel):
     doctor_id: int
