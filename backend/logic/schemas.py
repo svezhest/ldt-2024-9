@@ -8,24 +8,18 @@ class RecommendationType(str, Enum):
     NOTHING = 'nothing'
     CALL_OVERTIME = 'call_overtime'
     STOP_VACATION = 'stop_vacation'
-
-
-class Recommendation:
-    doctor_id: int
-    recommendation: RecommendationType
+    HIRE = 'hire'
 
 
 def reconsider_schedule(
         doctors: list[DoctorConfidentInfo],
         current_progress: dict[WorkloadType, int],
         predictions_this_week: dict[WorkloadType, int],
-        events: list[ScheduleEvent]) -> tuple[list[Recommendation], dict[WorkloadType, int]]:
+        events: list[ScheduleEvent]) -> dict[WorkloadType, dict[RecommendationType, int]]:
     '''
     events -- все известные события
 
     нужен алгоритм расчёта 2/2 (очень скоро сделаю)
 
-    отдаёт рекомендации по известным, если невозможно, в dict[WorkloadType, int]
-    будет указано, сколько врачей нанять.
     '''
     pass
