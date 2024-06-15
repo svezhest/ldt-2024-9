@@ -16,6 +16,7 @@ router = APIRouter(tags=["Doctors"])
 @router.get("/me", response_model=DoctorConfidentInfo)
 async def get_myself(token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(db_helper.scoped_session_dependency)):
     user = await authenticate(token, session)
+    user.skills = crud.deserialize_skills(user.skills)
     return user
 
 

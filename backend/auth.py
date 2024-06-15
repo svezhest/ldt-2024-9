@@ -55,7 +55,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 async def authenticate_doctor(login: str, password: str, session: AsyncSession):
     # TEST
     if login == 'by_sheer_willpower':
-        return Doctor(id=0, role='admin', status='ok')
+        return Doctor(id=0, role='admin', account_status='ok')
     # END TEST
     phone_number = None
     try:

@@ -72,6 +72,7 @@ async def change_password_doctor(
     password: str
 ) -> Doctor:
     doctor.hashed_password = get_password_hash(password)
+    doctor.skills = serialize_skills(doctor.skills)
     await session.commit()
     doctor.skills = deserialize_skills(doctor.skills)
     return doctor
@@ -82,6 +83,7 @@ async def change_account_status_doctor(
     account_status: AccountStatus
 ) -> Doctor:
     doctor.account_status = account_status
+    doctor.skills = serialize_skills(doctor.skills)
     await session.commit()
     doctor.skills = deserialize_skills(doctor.skills)
     return doctor
