@@ -5,8 +5,7 @@ import moment from 'moment'
 import 'moment/locale/ru'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import {createUseStyles} from 'react-jss'
-import {ArrowLeft} from '../../ui-kit/ArrowLeft'
-import classNames from 'classnames'
+import {ButtonSlider, Arrows} from '../../ui-kit'
 
 // Локализация для 'react-big-calendar' с использованием 'moment'
 moment.locale('ru')
@@ -18,7 +17,7 @@ const events = [
     start: new Date(2024, 5, 3, 13, 0, 0),
     end: new Date(2024, 5, 3, 18, 0, 0),
   },
-  // Добавьте остальные события аналогичным образом
+  // Добавьте остальные события аналогичным образомx
 ]
 
 const useStyles = createUseStyles({
@@ -41,50 +40,10 @@ const useStyles = createUseStyles({
     textTransform: 'capitalize',
     fontFamily: 'Inter, sans-serif',
   },
-  buttonGroup: {
-    display: 'flex',
-    gap: 8,
-    backgroundColor: 'rgba(248, 248, 248, 1)',
-    padding: 8,
-    borderRadius: 12,
-  },
-  activeButton: {
-    backgroundColor: 'white !important',
-  },
-  button: {
-    padding: [5, 12],
-    fontSize: 12,
-    border: 'none',
-    borderRadius: 8,
-    cursor: 'pointer',
-    backgroundColor: 'transparent',
-    '&:hover': {
-      backgroundColor: 'white',
-    },
-    '&:active': {
-      backgroundColor: 'white',
-    },
-  },
   leftHeader: {
     display: 'flex',
     alignItems: 'center',
     gap: 26,
-  },
-  crosses: {
-    display: 'flex',
-    gap: 10,
-  },
-  arrow: {
-    backgroundColor: 'rgba(248, 248, 248, 1)',
-    borderRadius: 12,
-    padding: 6,
-    cursor: 'pointer',
-    '&:active': {
-      backgroundColor: 'white',
-    },
-  },
-  rotate: {
-    transform: 'rotate(180deg)',
   },
   calendar: {
     width: '100%',
@@ -161,35 +120,13 @@ const MyCalendar = () => {
       <div className={classes.header}>
         <div className={classes.leftHeader}>
           <h1 className={classes.title}>{moment(currentDate).format('MMMM YYYY')}</h1>
-          <div className={classes.crosses}>
-            <button className={classes.arrow} onClick={() => handleNavigate('PREV')}>
-              <ArrowLeft />
-            </button>
-            <button className={classNames(classes.arrow, classes.rotate)} onClick={() => handleNavigate('NEXT')}>
-              <ArrowLeft />
-            </button>
-          </div>
+          <Arrows leftFunc={() => handleNavigate('PREV')} rightFunc={() => () => handleNavigate('NEXT')} />
         </div>
-        <div className={classes.buttonGroup}>
-          <button
-            className={`${classes.button} ${String(view) === 'day' ? classes.activeButton : undefined}`}
-            onClick={() => handleViewChange(Views.DAY)}
-          >
-            День
-          </button>
-          <button
-            className={`${classes.button} ${String(view) === 'week' ? classes.activeButton : undefined}`}
-            onClick={() => handleViewChange(Views.WEEK)}
-          >
-            Неделя
-          </button>
-          <button
-            className={`${classes.button} ${String(view) === 'month' ? classes.activeButton : undefined}`}
-            onClick={() => handleViewChange(Views.MONTH)}
-          >
-            Месяц
-          </button>
-        </div>
+        <ButtonSlider
+          first={{isActive: String(view) === 'day', onClick: () => handleViewChange(Views.DAY), text: 'День'}}
+          second={{isActive: String(view) === 'week', onClick: () => handleViewChange(Views.WEEK), text: 'Неделя'}}
+          third={{isActive: String(view) === 'month', onClick: () => handleViewChange(Views.MONTH), text: 'Месяц'}}
+        />
       </div>
       <Calendar
         localizer={localizer}

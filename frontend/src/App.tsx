@@ -1,9 +1,6 @@
 import React from 'react'
-import {AuthFirst, AuthSecond} from './pages'
+import {AuthFirst, AuthSecond, Main, Calendar, Profile, Job, Detect, Doctors, Absence, Settings} from './pages'
 import {Route, Routes} from 'react-router-dom'
-import {Main} from './pages/Main'
-import {Calendar} from './pages/Calendar'
-import {Profile} from './pages/Profile'
 
 export const App = () => {
   return (
@@ -26,6 +23,46 @@ export const App = () => {
         element={
           <Main>
             <Calendar />
+          </Main>
+        }
+      />
+      <Route
+        path='/job'
+        element={
+          <Main>
+            <Job />
+          </Main>
+        }
+      />
+      <Route
+        path='/detect'
+        element={
+          <Main>
+            <Detect />
+          </Main>
+        }
+      />
+      <Route
+        path='/doctors'
+        element={
+          <Main>
+            <Doctors />
+          </Main>
+        }
+      />
+      <Route
+        path='/absence'
+        element={
+          <Main>
+            <Absence />
+          </Main>
+        }
+      />
+      <Route
+        path='/settings'
+        element={
+          <Main>
+            <Settings />
           </Main>
         }
       />

@@ -2,7 +2,15 @@ import path from 'path'
 import {Configuration} from 'webpack'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 
-const config: Configuration = {
+type CustomDevServer = {
+  historyApiFallback: boolean
+}
+
+interface CustomWebpackConfiguration extends Configuration {
+  devServer?: CustomDevServer
+}
+
+const config: CustomWebpackConfiguration = {
   mode: (process.env.NODE_ENV as 'production' | 'development' | undefined) ?? 'production',
   entry: './src/index.tsx',
   module: {
@@ -24,6 +32,9 @@ const config: Configuration = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+  },
+  devServer: {
+    historyApiFallback: true,
   },
   plugins: [
     new CopyWebpackPlugin({

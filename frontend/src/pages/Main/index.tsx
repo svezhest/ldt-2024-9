@@ -28,19 +28,23 @@ export const Main: FC<MainProps> = ({children}) => {
           <Button text='График' isActive={location.pathname === '/calendar'} onClick={() => navigate('/calendar')}>
             <Calendar />
           </Button>
-          <Button text='Работа'>
+          <Button text='Работа' isActive={location.pathname === '/job'} onClick={() => navigate('/job')}>
             <Job />
           </Button>
-          <Button text='Прогноз'>
+          <Button text='Прогноз' isActive={location.pathname === '/detect'} onClick={() => navigate('/detect')}>
             <Detect />
           </Button>
-          <Button text='Врачи'>
+          <Button text='Врачи' isActive={location.pathname === '/doctors'} onClick={() => navigate('/doctors')}>
             <Doctors />
           </Button>
-          <Button text='Непредвиденные обстоятельства'>
+          <Button
+            text='Непредвиденные обстоятельства'
+            isActive={location.pathname === '/absence'}
+            onClick={() => navigate('/absence')}
+          >
             <Warning />
           </Button>
-          <Button text='Настройки'>
+          <Button text='Настройки' isActive={location.pathname === '/settings'} onClick={() => navigate('/settings')}>
             <Settings />
           </Button>
         </div>

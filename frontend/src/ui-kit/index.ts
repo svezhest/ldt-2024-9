@@ -1,2 +1,5 @@
 export {BlueButton} from './BlueButton'
 export {ArrowLeft} from './ArrowLeft'
+export {ButtonSlider} from './ButtonSlider'
+export {Arrows} from './Arrows'
+export {Dropdown} from './Dropdown'
