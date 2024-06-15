@@ -193,6 +193,9 @@ async def get_schedule(
     # 2/2 (80, 4w): 01 02 03 04 05 06 07 08 09 10 11 12 13 14 01 02 03 04 05 06 07 08 09 10 11 12 13 14
     #               -- 11 -- -- -- 12 -- -- 11 -- -- -- -- 12 -- -- -- 11 -- -- -- 12 -- -- -- 11 -- --
 
+    user = await authenticate(token, session)
+    authorize(user, [Role.DOCTOR, Role.HR])
+
     res = []
 
     if doctor.shifting_type == '5/2':
