@@ -1,8 +1,12 @@
 import {BlueButton, ArrowLeft} from '../../ui-kit'
-import React from 'react'
+import React, {useState} from 'react'
 import {createUseStyles} from 'react-jss'
 import cn from 'classnames'
 import {useNavigate} from 'react-router-dom'
+import {getMyself, loginForAccessToken} from '../../api'
+import {useDispatch} from 'react-redux'
+import {AppDispatch} from '../../storage/store'
+import {setAccountData} from '../../storage/accountSlice'
 
 type AuthSecondProps = {
   profile: 'doctor' | 'HR' | 'head'
@@ -11,6 +15,44 @@ type AuthSecondProps = {
 export const AuthSecond: React.FC<AuthSecondProps> = () => {
   const c = useStyles()
   const navigate = useNavigate()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const dispatch = useDispatch<AppDispatch>()
+  // const account = useSelector((state: RootState) => state.account)
+
+  const auth = () => {
+    // if (!email || !password) {
+    //   return
+    // }
+    loginForAccessToken(email, password).then((res) => {
+      dispatch(
+        setAccountData({
+          token: res.access_token,
+        })
+      )
+
+      // by_sheer_willpower"
+
+      getMyself(res.access_token).then((res) => {
+        dispatch(
+          setAccountData({
+            startHours: res.start_hours,
+            shiftingType: res.shifting_type,
+            hoursPerWeel: res.hours_per_weel,
+            fullName: res.full_name,
+            dateOfBirth: res.date_of_birth,
+            position: res.date_of_birth,
+            specialization: res.specialization,
+            phoneNumber: res.phone_number,
+            email: res.email,
+            skills: res.skills,
+            role: res.role,
+          })
+        )
+        navigate('/profile')
+      })
+    })
+  }
 
   return (
     <div className={c.root}>
@@ -27,10 +69,22 @@ export const AuthSecond: React.FC<AuthSecondProps> = () => {
           <h2>Вход / Регистрация</h2>
         </div>
         <p className={cn(c.inputHeader, c.margin)}>Email</p>
-        <input className={c.input} placeholder='Введите почту' type='email' />
+        <input
+          className={c.input}
+          placeholder='Введите почту'
+          type='email'
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+        />
         <p className={c.inputHeader}>Пароль</p>
-        <input className={c.input} placeholder='Введите пароль' type='password' />
-        <BlueButton className={c.button} text='Войти' size='md' isInverse onClick={() => navigate('/profile')} />
+        <input
+          className={c.input}
+          placeholder='Введите пароль'
+          type='password'
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        />
+        <BlueButton className={c.button} text='Войти' size='md' isInverse onClick={auth} />
       </div>
     </div>
   )
