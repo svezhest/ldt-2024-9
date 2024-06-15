@@ -1,6 +1,5 @@
 import path from 'path'
 import {Configuration} from 'webpack'
-import CopyWebpackPlugin from 'copy-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 type CustomDevServer = {

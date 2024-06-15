@@ -6,13 +6,14 @@ import classNames from 'classnames'
 type ColoredButtonProps = {
   text?: string
   color?: 'red' | 'green'
+  onClick?: () => void
 }
 
-export const ColoredButton: FC<ColoredButtonProps> = ({text, color}) => {
+export const ColoredButton: FC<ColoredButtonProps> = ({text, color, onClick}) => {
   const c = useStyles()
 
   return (
-    <button className={classNames(c.addNewDoctor, color === 'red' ? c.red : c.green)}>
+    <button className={classNames(c.addNewDoctor, color === 'red' ? c.red : c.green)} onClick={onClick}>
       <p>{text}</p>
       <Cross color={color === 'red' ? 'red' : 'green'} />
     </button>

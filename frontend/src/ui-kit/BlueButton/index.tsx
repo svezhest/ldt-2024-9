@@ -32,7 +32,7 @@ export const BlueButton: FC<BlueButton> = ({size = 'lg', children, text, onClick
     <button
       className={cn(c.root, className, isInverse ? c.inverse : null)}
       onClick={onClick}
-      style={{width: size === 'lg' ? '40vw' : undefined}}
+      style={{width: size === 'lg' ? '40vw' : undefined, justifyContent: children ? 'flex-start' : 'center'}}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

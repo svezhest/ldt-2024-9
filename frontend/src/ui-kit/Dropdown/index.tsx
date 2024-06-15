@@ -1,16 +1,18 @@
 import {FC} from 'react'
 import {Arrow} from './Arrow'
 import {createUseStyles} from 'react-jss'
+import cn from 'classnames'
 
 type DropdownProps = {
   text: string
+  className?: string
 }
 
-export const Dropdown: FC<DropdownProps> = ({text}) => {
+export const Dropdown: FC<DropdownProps> = ({text, className}) => {
   const c = useStyles()
 
   return (
-    <button className={c.button}>
+    <button className={cn(c.button, className)}>
       <p>{text}</p>
       <Arrow />
     </button>

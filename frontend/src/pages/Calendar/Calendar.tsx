@@ -32,7 +32,7 @@ const useStyles = createUseStyles({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    marginBottom: 40,
+    marginBottom: 10,
   },
   title: {
     fontSize: '24px',
@@ -55,8 +55,10 @@ const useStyles = createUseStyles({
     },
     '& .rbc-event': {
       borderRadius: '5px',
-      padding: '5px',
       backgroundColor: 'transparent',
+      padding: 0,
+      display: 'flex',
+      justifyContent: 'center',
     },
     '& .rbc-today': {
       backgroundColor: '#e0e0e0',
@@ -64,9 +66,13 @@ const useStyles = createUseStyles({
     '& .rbc-day-bg': {
       backgroundColor: 'white',
       border: 'none',
+      boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.1)',
+      margin: 5,
+      borderRadius: 12,
     },
     '& .rbc-month-row': {
       border: 'none',
+      marginTop: 5,
     },
     '& .rbc-month-header': {
       display: 'none',
@@ -75,6 +81,7 @@ const useStyles = createUseStyles({
       fontSize: 14,
       fontWeight: 600,
       fontFamily: 'Inter, sans-serif',
+      margin: 15,
     },
     '& .rbc-event-content': {
       fontSize: 14,
@@ -82,15 +89,22 @@ const useStyles = createUseStyles({
       fontFamily: 'Inter, sans-serif',
       color: 'black',
       textAlign: 'center',
+      backgroundColor: 'rgba(224, 224, 224, 0.2)',
+      width: 'fit-content',
+      padding: [10, 24],
+      borderRadius: 10,
     },
     '& .rbc-row-segment': {
       marginTop: 10,
       borderRadius: 10,
-      backgroundColor: 'rgba(224, 224, 224, 0.2)',
-      padding: [10, 24],
+      padding: 0,
+      backgroundColor: 'transparent',
     },
     '& .rbc-toolbar': {
       display: 'none',
+    },
+    '& .rbc-row-bg': {
+      gap: 5,
     },
   },
 })
@@ -120,7 +134,7 @@ const MyCalendar = () => {
       <div className={classes.header}>
         <div className={classes.leftHeader}>
           <h1 className={classes.title}>{moment(currentDate).format('MMMM YYYY')}</h1>
-          <Arrows leftFunc={() => handleNavigate('PREV')} rightFunc={() => () => handleNavigate('NEXT')} />
+          <Arrows leftFunc={() => handleNavigate('PREV')} rightFunc={() => handleNavigate('NEXT')} />
         </div>
         <ButtonSlider
           first={{isActive: String(view) === 'day', onClick: () => handleViewChange(Views.DAY), text: 'День'}}
@@ -152,7 +166,7 @@ const MyCalendar = () => {
           previous: 'Предыдущий',
           next: 'Следующий',
         }}
-        style={{height: 800}}
+        style={{height: 700}}
       />
     </div>
   )

@@ -1,5 +1,17 @@
 import React, {useEffect} from 'react'
-import {AuthFirst, AuthSecond, Main, Calendar, Profile, Job, Detect, Doctors, Absence, Settings} from './pages'
+import {
+  AuthFirst,
+  AuthSecond,
+  Main,
+  Calendar,
+  Profile,
+  Job,
+  Detect,
+  Doctors,
+  Absence,
+  Settings,
+  AddAbsence,
+} from './pages'
 import {Route, Routes} from 'react-router-dom'
 
 export const App = () => {
@@ -60,6 +72,14 @@ export const App = () => {
         element={
           <Main>
             <Absence />
+          </Main>
+        }
+      />
+      <Route
+        path='/absence/add'
+        element={
+          <Main>
+            <AddAbsence />
           </Main>
         }
       />
