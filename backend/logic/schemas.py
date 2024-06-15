@@ -1,7 +1,7 @@
 from enum import Enum
 from api_v1.doctors.schemas import DoctorConfidentInfo
 from api_v1.schedule.schemas import ScheduleEvent
-from api_v1.workload.workload import WorkloadType
+from api_v1.workload.workload import WorkloadType, WorkloadTypeDoctor
 
 
 class RecommendationType(str, Enum):
@@ -15,7 +15,7 @@ def reconsider_schedule(
         doctors: list[DoctorConfidentInfo],
         current_progress: dict[WorkloadType, int],
         predictions_this_week: dict[WorkloadType, int],
-        events: list[ScheduleEvent]) -> dict[WorkloadType, dict[RecommendationType, int]]:
+        events: list[ScheduleEvent]) -> dict[WorkloadTypeDoctor, dict[RecommendationType, int]]:
     '''
     events -- все известные события
 

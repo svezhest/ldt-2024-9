@@ -17,6 +17,34 @@ class WorkloadType(str, Enum):
     FLUOROGRAPHY = 'fluorography'
 
 
+class WorkloadTypeDoctor(str, Enum):
+    CT = 'ct'
+    MMG = 'mmg'
+    MRI = 'mri'
+    RG = 'rg'
+
+workload_mapping = {
+    WorkloadTypeDoctor.CT: [
+        WorkloadType.CT,
+        WorkloadType.CT_CONTRAST,
+        WorkloadType.CT_CONTRAST_MULTI,
+    ],
+    WorkloadTypeDoctor.MMG: [
+        WorkloadType.MMG
+    ],
+    WorkloadTypeDoctor.MRI: [
+        WorkloadType.MRI,
+        WorkloadType.MRI_CONTRAST,
+        WorkloadType.MRI_CONTRAST_MULTI,
+    ],
+    WorkloadTypeDoctor.RG: [
+        WorkloadType.RG,
+        WorkloadType.FLUOROGRAPHY,
+        WorkloadType.DENSITOMETER
+    ]
+}
+
+
 def parse_workload_type(workload_type: str):
     workload_type = workload_type.upper().strip()
     return WorkloadType[workload_type]
