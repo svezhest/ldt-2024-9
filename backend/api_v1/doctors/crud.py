@@ -15,6 +15,7 @@ from core.models import Doctor
 from .schemas import DoctorPublicInfo, DoctorConfidentInfo, DoctorPartial, DoctorTechnicalInfo
 from .schemas import Doctor as DoctorRepr
 from auth import get_password_hash
+from typing import Union
 
 async def get_doctors(session: AsyncSession) -> list[DoctorPublicInfo]:
     stmt = select(Doctor).order_by(Doctor.id)
@@ -37,8 +38,13 @@ def serialize_skills(skills: Skills) -> str:
     return ', '.join([skills.primary_skill, *skills.secondary_skills])
 
 
-def deserialize_skills(skills: str) -> Skills:
-    return Skills(primary_skill=skills.split(', ')[0], secondary_skills=skills.split(', ')[1:])
+def deserialize_skills(skills: Union[str, Skills]) -> Skills:
+    if isinstance(skills, str):
+        skills_list = skills.split(', ')
+        primary_skill = skills_list[0]
+        secondary_skills = skills_list[1:] if len(skills_list) > 1 else []
+        return Skills(primary_skill=primary_skill, secondary_skills=secondary_skills)
+    return skills
 
 
 async def create_doctor(session: AsyncSession, doctor_in: DoctorRepr) -> Doctor:
