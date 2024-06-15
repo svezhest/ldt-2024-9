@@ -10,11 +10,11 @@
     "outDir": "dist",
     "module": "CommonJS",
     "moduleResolution": "node",
-    "paths": {
-      "@/*": ["./src/*"],
-      "@ui-kit/*": ["./src/ui-kit/*"],
-      "@ui-kit": ["./src/ui-kit/index"]
-    }
+    // "paths": {
+    //   "@/*": ["./src/*"],
+    //   "@ui-kit/*": ["./src/ui-kit/*"],
+    //   "@ui-kit": ["./src/ui-kit/index"]
+    // }
   },
   "include": ["src/**/*", "**/*.ts", "**/*.tsx", "server.ts", "dist/server.js"]
 }

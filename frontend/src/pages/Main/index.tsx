@@ -3,6 +3,8 @@ import {createUseStyles} from 'react-jss'
 import {Button} from './Button'
 import {Calendar, Profile, Job, Settings, Warning, Doctors, Detect} from './Button/logos'
 import {useLocation, useNavigate} from 'react-router-dom'
+import {RootState} from '../../storage/store'
+import {useSelector} from 'react-redux'
 
 type MainProps = {
   children?: ReactElement
@@ -12,14 +14,15 @@ export const Main: FC<MainProps> = ({children}) => {
   const c = useStyles()
   const location = useLocation()
   const navigate = useNavigate()
+  const account = useSelector((state: RootState) => state.account)
 
   return (
     <div className={c.root}>
       <div className={c.leftPart}>
         <div className={c.bio}>
-          <p className={c.name}>Владислав Аристов</p>
-          <p className={c.job}>Лекарь интерфейсов</p>
-          <p className={c.badge}>на работе</p>
+          <p className={c.name}>{account.fullName}</p>
+          <p className={c.job}>{account.specialization}</p>
+          <p className={c.badge}>{account.position}</p>
         </div>
         <div className={c.buttons}>
           <Button text='Мой профиль' isActive={location.pathname === '/profile'} onClick={() => navigate('/profile')}>

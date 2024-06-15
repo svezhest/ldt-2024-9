@@ -18,18 +18,21 @@ export const AuthSecond: React.FC<AuthSecondProps> = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useDispatch<AppDispatch>()
-  // const account = useSelector((state: RootState) => state.account)
 
   const auth = () => {
-    // if (!email || !password) {
-    //   return
-    // }
+    if (!email || !password) {
+      return
+    }
     loginForAccessToken(email, password).then((res) => {
       dispatch(
         setAccountData({
           token: res.access_token,
         })
       )
+
+      const expiryDate = new Date()
+      expiryDate.setDate(expiryDate.getDate() + 7)
+      document.cookie = `jwtToken=${JSON.stringify({token: res.access_token, expiry: expiryDate.getTime()})}; expires=${expiryDate.toUTCString()}; path=/`
 
       // by_sheer_willpower"
 
@@ -41,7 +44,7 @@ export const AuthSecond: React.FC<AuthSecondProps> = () => {
             hoursPerWeel: res.hours_per_weel,
             fullName: res.full_name,
             dateOfBirth: res.date_of_birth,
-            position: res.date_of_birth,
+            position: res.position,
             specialization: res.specialization,
             phoneNumber: res.phone_number,
             email: res.email,

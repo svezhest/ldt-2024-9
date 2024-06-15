@@ -25,7 +25,7 @@ const useStyles = createUseStyles({
 })
 
 const CheckBox = () => {
-  const [checked, setChecked] = useState(false)
+  const [checked, setChecked] = useState(true)
   const classes = useStyles()
 
   const toggleCheck = () => {

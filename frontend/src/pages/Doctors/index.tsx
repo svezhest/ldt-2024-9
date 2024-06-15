@@ -1,10 +1,26 @@
 import {createUseStyles} from 'react-jss'
 import {DoctorCard} from './Card'
-import {data} from './Card/mock'
+// import {data} from './Card/mock'
 import {Dropdown, SearchInput, ColoredButton} from '../../ui-kit'
+import {useEffect, useState} from 'react'
+import {RootState} from '../../storage/store'
+import {useSelector} from 'react-redux'
+import {getDoctors} from '../../api'
+import {DoctorPublicInfo} from '../../api/types'
 
 export const Doctors = () => {
   const c = useStyles()
+  const account = useSelector((state: RootState) => state.account)
+  const [data, setDoctors] = useState<DoctorPublicInfo[] | null>(null)
+
+  useEffect(() => {
+    if (account.token) {
+      getDoctors(account.token).then((res) => {
+        setDoctors(res)
+        return
+      })
+    }
+  }, [])
 
   return (
     <div className={c.root}>
@@ -15,16 +31,16 @@ export const Doctors = () => {
         <ColoredButton text='Добавить нового специалиста' />
       </div>
       <div className={c.cards}>
-        {data.map((el, i) => (
-          <DoctorCard
-            busy={el.busy}
-            fullName={el.fullName}
-            jobTitle={el.jobTitle}
-            competitions={el.competitions}
-            dates={el.dates}
-            key={i}
-          />
-        ))}
+        {data &&
+          data.map((el, i) => (
+            <DoctorCard
+              busy='available'
+              fullName={el.full_name}
+              jobTitle={el.position}
+              competitions={el.specialization}
+              key={i}
+            />
+          ))}
       </div>
     </div>
   )

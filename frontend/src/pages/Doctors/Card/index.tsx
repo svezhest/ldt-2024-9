@@ -8,7 +8,7 @@ type DoctorCardProps = {
   fullName: string
   competitions: string
   jobTitle: string
-  dates: {
+  dates?: {
     date: string
     type: string
   }
