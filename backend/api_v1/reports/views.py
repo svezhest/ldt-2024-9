@@ -39,7 +39,12 @@ async def get_report(
         session: AsyncSession = Depends(db_helper.scoped_session_dependency)):
 
     user = await authenticate(token, session)
-    authorize(user, Role.DOCTOR)
+    if user.id != doctor_id and user.Role != Role.ADMIN:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Only admins or doctor himself can view reports.",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
     report = await crud.get_report(doctor_id, datetime.date.today(), workload_type, session)
 
@@ -55,7 +60,13 @@ async def post_report(
         session: AsyncSession = Depends(db_helper.scoped_session_dependency)):
 
     user = await authenticate(token, session)
-    authorize(user, Role.DOCTOR)
+
+    if user.id != doctor_id and user.Role != Role.ADMIN:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Only admins or doctor himself can edit reports.",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
     report = await crud.post_report(doctor_id, datetime.date.today(), workload_type, amount, session)
 
