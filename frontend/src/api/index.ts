@@ -115,8 +115,6 @@ export const getWorkloadByDoctor = async (
   doctor_id: number,
   token: string
 ): Promise<GetWorkloadByDoctor> => {
-  // eslint-disable-next-line no-console
-  console.log('workload_type:', workload_type, 'doctor_id:', doctor_id, 'token;', token)
   const response = await api.get<GetWorkloadByDoctor>('api/v1/reports/' + workload_type + '/' + doctor_id, {
     headers: {Authorization: `Bearer ${token}`},
   })
@@ -131,12 +129,27 @@ export const postWorkloadByDoctor = async (
   token: string
 ): Promise<GetWorkloadByDoctor> => {
   const response = await api.post<GetWorkloadByDoctor>(
-    'api/v1/reports/' + workload_type + '/' + doctor_id,
-    {amount},
+    `api/v1/reports/${workload_type}/${doctor_id}`,
+    {}, // Пустое тело запроса
     {
       headers: {Authorization: `Bearer ${token}`},
+      params: {amount},
     }
   )
+
+  return response.data
+}
+
+export const getSchedule = async (
+  doctor_id: number,
+  date_to: string,
+  date_from: string,
+  token: string
+): Promise<GetWorkloadByDoctor> => {
+  const response = await api.get<GetWorkloadByDoctor>(`api/v1/doctors/${doctor_id}/schedule`, {
+    headers: {Authorization: `Bearer ${token}`},
+    params: {date_from, date_to},
+  })
 
   return response.data
 }
