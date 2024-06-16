@@ -53,8 +53,10 @@ mapping = {
 def update_predictions(year: int, week_number: int):
     global predictions
 
-    if predictions is None:
-        _predictions = run_prediction()
+    steps = (year - 2024) * 52 + week_number
+
+    if predictions is None or (year, week_number) not in predictions:
+        _predictions = run_prediction(steps)
 
         predictions = {}
 
@@ -69,12 +71,8 @@ def update_predictions(year: int, week_number: int):
 
             predictions[(_year, _week_number)][workload_type] = math.ceil(amount)
 
-    elif (year, week_number) not in predictions:
-        # TODO! LATER!
-        pass
 
-
-def run_prediction() -> list:
+def run_prediction(steps: int = 4) -> list:
     file_path = 'data.csv' 
 
     with open(file_path, 'rb') as f:
@@ -124,7 +122,7 @@ def run_prediction() -> list:
         try:
             model = SARIMAX(group[column], order=order, seasonal_order=seasonal_order)
             results = model.fit(disp=False)
-            forecast = results.get_forecast(steps=4)
+            forecast = results.get_forecast(steps=steps)
             
             forecasts[column] = forecast.predicted_mean
             
