@@ -123,11 +123,6 @@ async def delete_doctor(
     await crud.delete_doctor(session=session, doctor=doctor)
 
 
-
-
-
-
-
 @router.get("/{doctor_id}/schedule", response_model=Schedule)
 async def get_schedule(
     date_from: datetime.date,

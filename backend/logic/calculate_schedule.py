@@ -72,8 +72,9 @@ def generate_schedule(starting_hours: StartHours, duration: int):
             ),
         ],
         date=datetime.date.today(),
-        total_working_time=duration,
-        total_break_time=break_time
+        total_working_time=datetime.time(hour=duration, minute=0, second=0),
+        total_break_time=datetime.time(
+            hour=0 if break_time == 0.5 else 1, minute=30 if break_time == 0.5 else 0, second=0)
     )
 
 

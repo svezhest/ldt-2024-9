@@ -31,8 +31,8 @@ class Interval(BaseModel):
 class DaySchedule(BaseModel):
     intervals: list[Interval]
     date: datetime.date
-    total_break_time: datetime.timedelta
-    total_working_time: datetime.timedelta
+    total_break_time: datetime.time
+    total_working_time: datetime.time
 
 
 class Schedule(BaseModel):
