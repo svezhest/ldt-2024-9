@@ -10,6 +10,7 @@ python = "^3.11"
 fastapi = {extras = ["all"], version = "^0.111.0"}
 sqlalchemy = "^2.0.30"
 phonenumbers = "^8.13.38"
+numpy = "^1.26.4"
 
 
 [tool.poetry.group.dev.dependencies]
