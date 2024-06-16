@@ -39,7 +39,7 @@ async def get_report(
         session: AsyncSession = Depends(db_helper.scoped_session_dependency)):
 
     user = await authenticate(token, session)
-    if user.id != doctor_id and user.Role != Role.ADMIN:
+    if user.id != doctor_id and user.role != Role.ADMIN:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Only admins or doctor himself can view reports.",
@@ -61,7 +61,7 @@ async def post_report(
 
     user = await authenticate(token, session)
 
-    if user.id != doctor_id and user.Role != Role.ADMIN:
+    if user.id != doctor_id and user.role != Role.ADMIN:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Only admins or doctor himself can edit reports.",
