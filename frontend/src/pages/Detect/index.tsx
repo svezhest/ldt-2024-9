@@ -1,8 +1,8 @@
 import classNames from 'classnames'
-import {Arrows, Loader} from '../../ui-kit'
+import {Arrows, BlueButton, Loader} from '../../ui-kit'
 import {createUseStyles} from 'react-jss'
 import {useEffect, useState} from 'react'
-import {getStats} from '../../api'
+import {getFile, getStats} from '../../api'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../storage/store'
 import {GetStats} from '../../api/types'
@@ -38,6 +38,18 @@ export const Detect = () => {
           <div className={c.heading}>
             <Arrows />
             <h2 className={c.title}>3.06 - 09.06</h2>
+            <BlueButton
+              isInverse
+              text='Скачать отчет'
+              onClick={() => {
+                if (account.token) {
+                  getFile(account.token).then((res) => {
+                    // eslint-disable-next-line no-console
+                    console.log(res)
+                  })
+                }
+              }}
+            />
           </div>
           <table className={c.table}>
             <tr className={c.tableHeading}>

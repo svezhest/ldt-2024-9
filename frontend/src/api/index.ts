@@ -153,3 +153,11 @@ export const getSchedule = async (
 
   return response.data
 }
+
+export const getFile = async (token: string): Promise<unknown> => {
+  const response = await api.get<unknown>(`api/v1/files/table.xlsx`, {
+    headers: {Authorization: `Bearer ${token}`},
+  })
+
+  return response.data
+}
