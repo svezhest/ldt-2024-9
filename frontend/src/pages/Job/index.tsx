@@ -4,7 +4,7 @@ import {createUseStyles} from 'react-jss'
 import {getDoctor, getWorkloadByDoctor, postWorkloadByDoctor} from '../../api'
 import {RootState} from '../../storage/store'
 import {useSelector} from 'react-redux'
-import {BlueButton} from '../../ui-kit'
+import {BlueButton, Loader} from '../../ui-kit'
 
 export const Job = () => {
   const c = useStyles()
@@ -71,7 +71,7 @@ export const Job = () => {
   return (
     <>
       {isLoading ? (
-        'loading'
+        <Loader />
       ) : (
         <div className={c.root}>
           <h1 className={c.header}>Врач-рентгенолог</h1>

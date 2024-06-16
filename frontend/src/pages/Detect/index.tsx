@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import {Arrows} from '../../ui-kit'
+import {Arrows, Loader} from '../../ui-kit'
 import {createUseStyles} from 'react-jss'
 import {useEffect, useState} from 'react'
 import {getStats} from '../../api'
@@ -11,58 +11,68 @@ export const Detect = () => {
   const c = useStyles()
   const account = useSelector((state: RootState) => state.account)
   const [stats, setStats] = useState<GetStats | null>(null)
+  const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
     if (account.token) {
-      getStats(account.token).then((res) => {
-        // eslint-disable-next-line no-console
-        console.log(res.stats)
-        setStats(res.stats as unknown as GetStats)
-        // eslint-disable-next-line no-console
-        console.log(Array.isArray(stats), stats)
-        return
-      })
+      getStats(account.token)
+        .then((res) => {
+          // eslint-disable-next-line no-console
+          console.log(res.stats)
+          setStats(res.stats as unknown as GetStats)
+          // eslint-disable-next-line no-console
+          console.log(Array.isArray(stats), stats)
+        })
+        .finally(() => {
+          setLoading(false)
+        })
     }
   }, [account.token])
 
   return (
-    <div className={c.root}>
-      <div className={c.heading}>
-        <Arrows />
-        <h2 className={c.title}>3.06 - 09.06</h2>
-      </div>
-      <table className={c.table}>
-        <tr className={c.tableHeading}>
-          <td className={c.tableHeadingCell}>Тип</td>
-          <td className={c.tableHeadingCell}>Сделано</td>
-          <td className={c.tableHeadingCell}>Будет сделано за неделю (прогноз)</td>
-          <td className={c.tableHeadingCell}>Нужно сделать исследований (прогноз)</td>
-          <td className={c.tableHeadingCell}>Рекомендация</td>
-        </tr>
-        {Array.isArray(stats) &&
-          stats.map((el, i) => (
-            <tr
-              key={i}
-              className={classNames(
-                c.tableRow,
-                el.needed_prediction < el.done_prediction
-                  ? c.work
-                  : el.needed_prediction / 2 > el.done_prediction
-                    ? c.sickness
-                    : el.needed_prediction > el.done_prediction
-                      ? c.vacation
-                      : null
-              )}
-            >
-              <td className={c.tableCell}>{el.workload_type}</td>
-              <td className={c.tableCell}>{el.done}</td>
-              <td className={c.tableCell}>{el.done_prediction}</td>
-              <td className={c.tableCell}>{el.needed_prediction}</td>
-              <td className={c.tableCell}>{el.recommendation}</td>
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className={c.root}>
+          <div className={c.heading}>
+            <Arrows />
+            <h2 className={c.title}>3.06 - 09.06</h2>
+          </div>
+          <table className={c.table}>
+            <tr className={c.tableHeading}>
+              <td className={c.tableHeadingCell}>Тип</td>
+              <td className={c.tableHeadingCell}>Сделано</td>
+              <td className={c.tableHeadingCell}>Будет сделано за неделю (прогноз)</td>
+              <td className={c.tableHeadingCell}>Нужно сделать исследований (прогноз)</td>
+              <td className={c.tableHeadingCell}>Рекомендация</td>
             </tr>
-          ))}
-      </table>
-    </div>
+            {Array.isArray(stats) &&
+              stats.map((el, i) => (
+                <tr
+                  key={i}
+                  className={classNames(
+                    c.tableRow,
+                    el.needed_prediction < el.done_prediction
+                      ? c.work
+                      : el.needed_prediction / 2 > el.done_prediction
+                        ? c.sickness
+                        : el.needed_prediction > el.done_prediction
+                          ? c.vacation
+                          : null
+                  )}
+                >
+                  <td className={c.tableCell}>{el.workload_type}</td>
+                  <td className={c.tableCell}>{el.done}</td>
+                  <td className={c.tableCell}>{el.done_prediction}</td>
+                  <td className={c.tableCell}>{el.needed_prediction}</td>
+                  <td className={c.tableCell}>{el.recommendation}</td>
+                </tr>
+              ))}
+          </table>
+        </div>
+      )}
+    </>
   )
 }
 
