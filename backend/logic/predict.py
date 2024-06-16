@@ -166,7 +166,7 @@ def run_prediction(steps: int = 4) -> list:
             by=['Год', 'Номер недели']).reset_index(drop=True)
 
         forecast_melted.to_csv('predictions.csv')
-        forecast_melted.to_excel('predictions.xslx')
+        forecast_melted.to_excel('predictions.xlsx')
 
         forecast_list = forecast_melted.to_dict(orient='records')
 
