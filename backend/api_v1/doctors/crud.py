@@ -27,6 +27,16 @@ async def get_doctors(session: AsyncSession) -> list[DoctorPublicInfo]:
 
     return list(doctors)
 
+async def get_doctors_confident(session: AsyncSession) -> list[DoctorConfidentInfo]:
+    stmt = select(Doctor).order_by(Doctor.id)
+    result: Result = await session.execute(stmt)
+    doctors = result.scalars().all()
+
+    for doctor in doctors:
+        doctor.skills = deserialize_skills(doctor.skills)
+
+    return list(doctors)
+
 
 async def get_doctor(session: AsyncSession, doctor_id: int) -> DoctorRepr | None:
     doctor = await session.get(Doctor, doctor_id)
