@@ -5,7 +5,7 @@ from pydantic_extra_types.phone_numbers import PhoneNumber
 
 from api_v1.doctors.roles import AccountStatus, Role
 from api_v1.doctors.skills import Skills
-from api_v1.schedule.schemas import ScheduleMixin
+from api_v1.schedule.schemas import ScheduleMixin, ShiftingType, StartHours
 
 
 # class DoctorBase(BaseModel):
@@ -40,14 +40,13 @@ class DoctorConfidentInfo(DoctorPublicInfo, ScheduleMixin):
     email: EmailStr
     skills: Skills
     role: Role
+    start_hours: StartHours
+    shifting_type: ShiftingType
+    hours_per_week: int
 
 
-class DoctorConfidentInfoReturn(DoctorPublicInfoReturn, DoctorId):
-    phone_number: PhoneNumber
-    email: EmailStr
-    skills: Skills
-    role: Role
-
+class DoctorConfidentInfoReturn(DoctorConfidentInfo, DoctorId):
+    pass
 
 class DoctorTechnicalInfo(DoctorConfidentInfo):
     password: str
