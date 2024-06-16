@@ -11,9 +11,13 @@ fastapi = {extras = ["all"], version = "^0.111.0"}
 sqlalchemy = "^2.0.30"
 phonenumbers = "^8.13.38"
 numpy = "^1.26.4"
+pandas = "^2.2.2"
+statsmodels = "^0.14.2"
+chardet = "^5.2.0"
 
 
 [tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.4"
 
 
 [build-system]
