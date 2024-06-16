@@ -8,8 +8,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from core.models.base import Base
 
 
-class Event(Base):
+class Report(Base):
     doctor_id: Mapped[int] = mapped_column(
         ForeignKey('doctors.id'), primary_key=True)
     date: Mapped[datetime.date] = mapped_column(primary_key=True)
-    event_type: Mapped[str]
+    workload_type: Mapped[str] = mapped_column(primary_key=True)
+    amount: Mapped[int]
