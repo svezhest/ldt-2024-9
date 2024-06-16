@@ -68,7 +68,7 @@ async def post_report(
 
     if report is None:
         session.add(
-            Report(
+            report:= Report(
                 doctor_id=doctor_id,
                 date=date,
                 workload_type=workload_type,
