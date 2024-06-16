@@ -1,4 +1,3 @@
-import React, {useState} from 'react'
 import {createUseStyles} from 'react-jss'
 
 const useStyles = createUseStyles({
@@ -24,17 +23,12 @@ const useStyles = createUseStyles({
   },
 })
 
-const CheckBox = () => {
-  const [checked, setChecked] = useState(true)
+const CheckBox = ({active}: {active?: boolean}) => {
   const classes = useStyles()
 
-  const toggleCheck = () => {
-    setChecked(!checked)
-  }
-
   return (
-    <div className={`${classes.checkbox} ${checked ? classes.checked : ''}`} onClick={toggleCheck}>
-      {checked && (
+    <div className={`${classes.checkbox} ${active ? classes.checked : ''}`}>
+      {active && (
         <svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' viewBox='0 0 18 18'>
           <path
             fill='#fff'

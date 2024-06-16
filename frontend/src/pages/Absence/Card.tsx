@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import {FC} from 'react'
 import {createUseStyles} from 'react-jss'
+import {Date} from '../../ui-kit'
 
 type CardProps = {
   type: 'sickness' | 'vacation' | 'absence'
@@ -22,14 +23,7 @@ export const Card: FC<CardProps> = ({type}) => {
       <div className={c.datesWrapper}>
         <p className={c.text}>Будет отсутствовать{status[type as keyof typeof status]}</p>
         <div className={c.dates}>
-          <p
-            className={classNames(
-              c.date,
-              type === 'vacation' ? c.vacationDate : type === 'sickness' ? c.sicknessDate : c.absenceDate
-            )}
-          >
-            30.06
-          </p>
+          <Date type={type} text='30.06' />
         </div>
       </div>
 
@@ -70,19 +64,6 @@ const useStyles = createUseStyles({
   },
   datesWrapper: {
     marginTop: 20,
-  },
-  date: {
-    padding: [5, 12.5],
-    borderRadius: 12,
-  },
-  vacationDate: {
-    backgroundColor: 'rgba(255, 236, 222, 1)',
-  },
-  sicknessDate: {
-    backgroundColor: 'rgba(255, 226, 226, 1)',
-  },
-  absenceDate: {
-    backgroundColor: 'rgba(248, 248, 248, 1)',
   },
   button: {
     marginTop: 20,

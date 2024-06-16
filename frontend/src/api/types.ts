@@ -76,7 +76,7 @@ export interface DoctorPublicInfo {
 export interface DoctorTechnicalInfo {
   start_hours: StartHours
   shifting_type: ShiftingType
-  hours_per_weel: HoursPerWeek
+  hours_per_week: HoursPerWeek
   full_name: string
   date_of_birth: string // date
   position: string

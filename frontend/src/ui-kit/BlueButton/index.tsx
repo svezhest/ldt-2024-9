@@ -59,7 +59,7 @@ const useStyles = createUseStyles({
     alignItems: 'center',
     cursor: 'pointer',
 
-    '&:hover': {
+    '&:active': {
       background: '#58B3C0',
       color: 'white',
     },

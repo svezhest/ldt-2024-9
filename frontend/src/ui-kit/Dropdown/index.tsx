@@ -31,5 +31,6 @@ const useStyles = createUseStyles({
     fontSize: 14,
     color: 'rgba(121, 121, 121, 1)',
     cursor: 'pointer',
+    boxSizing: 'border-box',
   },
 })

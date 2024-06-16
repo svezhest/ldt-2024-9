@@ -11,6 +11,7 @@ import {
   Absence,
   Settings,
   AddAbsence,
+  AddDoctor,
 } from './pages'
 import {Route, Routes} from 'react-router-dom'
 import {getCookie} from './tools/getJWT'
@@ -105,6 +106,14 @@ export const App = () => {
         element={
           <Main>
             <Doctors />
+          </Main>
+        }
+      />
+      <Route
+        path='/add_doctors'
+        element={
+          <Main>
+            <AddDoctor />
           </Main>
         }
       />

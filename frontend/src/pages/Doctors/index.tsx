@@ -7,11 +7,13 @@ import {RootState} from '../../storage/store'
 import {useSelector} from 'react-redux'
 import {getDoctors} from '../../api'
 import {DoctorPublicInfo} from '../../api/types'
+import {useNavigate} from 'react-router-dom'
 
 export const Doctors = () => {
   const c = useStyles()
   const account = useSelector((state: RootState) => state.account)
   const [data, setDoctors] = useState<DoctorPublicInfo[] | null>(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (account.token) {
@@ -28,7 +30,7 @@ export const Doctors = () => {
         <SearchInput />
         <Dropdown text='Специализация' />
         <Dropdown text='Работает' />
-        <ColoredButton text='Добавить нового специалиста' />
+        <ColoredButton text='Добавить нового специалиста' onClick={() => navigate('/add_doctors')} />
       </div>
       <div className={c.cards}>
         {data &&
