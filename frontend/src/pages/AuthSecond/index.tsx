@@ -39,17 +39,11 @@ export const AuthSecond: React.FC<AuthSecondProps> = () => {
       getMyself(res.access_token).then((res) => {
         dispatch(
           setAccountData({
-            startHours: res.start_hours,
-            shiftingType: res.shifting_type,
-            hoursPerWeel: res.hours_per_weel,
+            id: res.id,
             fullName: res.full_name,
             dateOfBirth: res.date_of_birth,
             position: res.position,
             specialization: res.specialization,
-            phoneNumber: res.phone_number,
-            email: res.email,
-            skills: res.skills,
-            role: res.role,
           })
         )
         navigate('/profile')

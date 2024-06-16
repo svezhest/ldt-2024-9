@@ -8,7 +8,7 @@ import {useSelector} from 'react-redux'
 import {RootState} from '../../storage/store'
 import {useState} from 'react'
 import {DoctorTechnicalInfo, WorkloadType} from '../../api/types'
-import {workloadTypes} from '../../api/translates'
+import {skills} from '../../api/translates'
 
 export const AddDoctor = () => {
   const c = useStyles()
@@ -19,7 +19,7 @@ export const AddDoctor = () => {
   const [phone, setPhone] = useState('')
   const account = useSelector((state: RootState) => state.account)
   const [workload, setWorkload] = useState(
-    workloadTypes.reduce(
+    skills.reduce(
       (acc, type) => {
         acc[type] = false
         return acc
@@ -33,9 +33,6 @@ export const AddDoctor = () => {
       return
     }
 
-    // eslint-disable-next-line no-console
-    console.log(workload)
-
     const doctor: DoctorTechnicalInfo = {
       full_name: name,
       email,
@@ -45,8 +42,10 @@ export const AddDoctor = () => {
       account_status: 'ok',
       skills: {
         primary_skill: 'ct',
-        secondary_skills: Object.keys(workload) as WorkloadType[],
-      }, //fix
+        secondary_skills: Object.entries(workload)
+          .filter(([_key, value]) => value === true)
+          .map(([key, _value]) => key) as WorkloadType[],
+      },
       specialization: '',
       position: '',
       date_of_birth: '2003-05-23',
@@ -92,7 +91,7 @@ export const AddDoctor = () => {
           </div>
           <BlueButton text='Выбрать смены' className={c.button} />
           <p className={classNames(c.text, c.textMargin)}>Компетенции</p>
-          {workloadTypes.map((el, i) => (
+          {skills.map((el, i) => (
             <Check text={el} key={i} setWorkload={setWorkload} workload={workload} />
           ))}
         </div>

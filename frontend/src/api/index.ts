@@ -8,6 +8,7 @@ import {
   DoctorPartial,
   Token,
   GetStats,
+  GetWorkloadByDoctor,
 } from './types'
 import {API_URL} from './API_URL'
 
@@ -105,6 +106,37 @@ export const getStats = async (token: string): Promise<GetStats> => {
   const response = await api.get<GetStats>('api/v1/stats', {
     headers: {Authorization: `Bearer ${token}`},
   })
+
+  return response.data
+}
+
+export const getWorkloadByDoctor = async (
+  workload_type: string,
+  doctor_id: number,
+  token: string
+): Promise<GetWorkloadByDoctor> => {
+  // eslint-disable-next-line no-console
+  console.log('workload_type:', workload_type, 'doctor_id:', doctor_id, 'token;', token)
+  const response = await api.get<GetWorkloadByDoctor>('api/v1/reports/' + workload_type + '/' + doctor_id, {
+    headers: {Authorization: `Bearer ${token}`},
+  })
+
+  return response.data
+}
+
+export const postWorkloadByDoctor = async (
+  workload_type: string,
+  doctor_id: number,
+  amount: number,
+  token: string
+): Promise<GetWorkloadByDoctor> => {
+  const response = await api.post<GetWorkloadByDoctor>(
+    'api/v1/reports/' + workload_type + '/' + doctor_id,
+    {amount},
+    {
+      headers: {Authorization: `Bearer ${token}`},
+    }
+  )
 
   return response.data
 }

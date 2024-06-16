@@ -34,17 +34,11 @@ export interface Doctor {
 
 // DoctorConfidentInfo.ts
 export interface DoctorConfidentInfo {
-  start_hours: StartHours
-  shifting_type: ShiftingType
-  hours_per_weel: HoursPerWeek
+  id: number
   full_name: string
-  date_of_birth: string // date
+  date_of_birth: string
   position: string
   specialization: string
-  phone_number: string
-  email: string
-  skills: Skills
-  role: Role
 }
 
 // DoctorPartial.ts
@@ -120,4 +114,11 @@ export type GetStats = {
     needed_prediction: number
     recommendation: 'nothing' | 'call_overtime' | 'stop_vacation' | 'hire'
   }[]
+}
+
+export type GetWorkloadByDoctor = {
+  doctor_id: number
+  date: string
+  workload_type: string
+  amount: number
 }

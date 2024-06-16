@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {createUseStyles} from 'react-jss'
 import CheckBox from './Checkbox'
 import {FC, useState} from 'react'
@@ -11,9 +12,7 @@ type CheckProps = {
 
 export const Check: FC<CheckProps> = ({readOnly, text, workload, setWorkload}) => {
   const c = useStyles()
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
-  const [checked, setChecked] = useState(Boolean(workload[`${text}`]))
+  const [checked, setChecked] = useState(workload ? Boolean(workload[`${text}`]) : false)
 
   const toggleCheck = () => {
     if (readOnly) {
@@ -21,10 +20,10 @@ export const Check: FC<CheckProps> = ({readOnly, text, workload, setWorkload}) =
     }
     setChecked(!checked)
     if (workload && setWorkload && text) {
-      setWorkload({...workload, [text]: checked})
+      setWorkload({...workload, [text]: !workload[text]})
 
       // eslint-disable-next-line no-console
-      console.log(workload[text])
+      console.log(workload, text)
     }
   }
 
