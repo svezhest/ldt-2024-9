@@ -9,6 +9,9 @@ from core.config import settings
 from core.models import Base, db_helper
 from api_v1 import router as router_v1
 from auth import router as auth_router
+from logic.predict import update_predictions
+import threading
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -32,14 +35,19 @@ app.include_router(router=router_v1, prefix=settings.api_v1_prefix)
 app.include_router(router=auth_router)
 
 
+def prepare():
+    print('started prediction')
+    update_predictions(2024, 40)
+
+
+threading.Thread(target=prepare).start()
+
 
 @app.get("/")
 def hello_index():
     return {
         "message": "Победа или смерть",
     }
-
-
 
 
 if __name__ == "__main__":

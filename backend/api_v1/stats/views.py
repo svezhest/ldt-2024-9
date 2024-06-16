@@ -10,6 +10,7 @@ from api_v1.workload.workload import WorkloadType, proportions
 from api_v1.doctors.crud import get_doctors_confident
 from api_v1.reports.crud import get_total_for_week
 from api_v1.events.crud import get_events
+from logic.schemas import RecommendationType
 from .schemas import Stats, WorkloadTypeStats
 from auth import authenticate, oauth2_scheme
 from authorize import authorize
@@ -90,5 +91,5 @@ async def get_stats(
             done_prediction=expected_this_week[_workload_type],
             needed_prediction=predictions_this_week[_workload_type],
             recommendation=recommendation
-        ) for _workload_type in WorkloadType for recommendation in recommendations[_workload_type]
+        ) for _workload_type in WorkloadType for recommendation in recommendations[_workload_type] if recommendation != RecommendationType.NOTHING and recommendations[_workload_type][recommendation] > 0
     ])
