@@ -1,3 +1,4 @@
+from collections import defaultdict
 import numpy as np
 from typing import List, Dict, Tuple
 import datetime
@@ -21,8 +22,8 @@ def reconsider_schedule(
     for doc in doctors:
         if any(evt.start <= cur_date <= evt.end for evt in events if evt.doc == doc):
             continue
-        avail_doctors[doc.primary_skill].append(doc)
-        for add_mod in doc.secondary_skills:
+        avail_doctors[doc.skills.primary_skill].append(doc)
+        for add_mod in doc.skills.secondary_skills:
             avail_doctors[add_mod].append(doc)
 
     # Определение требуемых врачей
@@ -57,7 +58,7 @@ def reconsider_schedule(
                             np.ceil(overtime_hours / 40))
                         # Вторая приоритет: Прекращение отпуска
                         vacation_hours = sum(doc.hours_per_week for doc in doctors if any(
-                            evt.doc == doc and evt.evt_type == 'vac' for evt in evts) and doc.primary_skill == doctor_wl)
+                            evt.doctor_id == doc and evt.event_type == 'vac' for evt in events) and doc.skills.primary_skill == doctor_wl)
                         if vacation_hours >= shortfall_hours:
                             recs[doctor_wl][RecommendationType.STOP_VACATION] += int(
                                 np.ceil(shortfall_hours / 40))
@@ -71,5 +72,9 @@ def reconsider_schedule(
                                 np.ceil(shortfall_hours / 40))
                 else:
                     recs[doctor_wl][RecommendationType.NOTHING] += 1
+
+    for workload_type in WorkloadType:
+        if workload_type not in recs:
+            recs[workload_type] = defaultdict(int)
 
     return recs

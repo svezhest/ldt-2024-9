@@ -23,6 +23,7 @@ class WorkloadTypeDoctor(str, Enum):
     MRI = 'mri'
     RG = 'rg'
 
+
 workload_mapping = {
     WorkloadTypeDoctor.CT: [
         WorkloadType.CT,
@@ -42,6 +43,28 @@ workload_mapping = {
         WorkloadType.FLUOROGRAPHY,
         WorkloadType.DENSITOMETER
     ]
+}
+
+
+proportions = {
+    WorkloadTypeDoctor.CT: [
+        (WorkloadType.CT, 0.673297538766856),
+        (WorkloadType.CT_CONTRAST, 0.126725211211868),
+        (WorkloadType.CT_CONTRAST_MULTI, 0.199977250021277),
+    ],
+    WorkloadTypeDoctor.MMG: [
+        (WorkloadType.MMG, 1),
+    ],
+    WorkloadTypeDoctor.MRI: [
+        (WorkloadType.MRI, 0.654877831369728),
+        (WorkloadType.MRI_CONTRAST, 0.339483895807981),
+        (WorkloadType.MRI_CONTRAST_MULTI, 0.00563827282229106),
+    ],
+    WorkloadTypeDoctor.RG: [
+        (WorkloadType.RG, 0.905777992975203),
+        (WorkloadType.FLUOROGRAPHY, 0.082222743823554),
+        (WorkloadType.DENSITOMETER, 0.0119992632012432),
+    ],
 }
 
 
