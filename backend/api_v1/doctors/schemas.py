@@ -43,7 +43,10 @@ class DoctorConfidentInfo(DoctorPublicInfo, ScheduleMixin):
 
 
 class DoctorConfidentInfoReturn(DoctorPublicInfoReturn, DoctorId):
-    pass
+    phone_number: PhoneNumber
+    email: EmailStr
+    skills: Skills
+    role: Role
 
 
 class DoctorTechnicalInfo(DoctorConfidentInfo):
