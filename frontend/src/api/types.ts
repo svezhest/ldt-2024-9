@@ -111,3 +111,13 @@ export type WorkloadType =
   | 'mri_contrast_multi'
   | 'rg'
   | 'fluorography'
+
+export type GetStats = {
+  stats: {
+    workload_type: WorkloadType
+    done: number
+    done_prediction: number
+    needed_prediction: number
+    recommendation: 'nothing' | 'call_overtime' | 'stop_vacation' | 'hire'
+  }[]
+}

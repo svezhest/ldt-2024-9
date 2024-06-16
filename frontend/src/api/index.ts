@@ -1,6 +1,14 @@
 // api.ts
 import axios from 'axios'
-import {DoctorConfidentInfo, DoctorPublicInfo, DoctorTechnicalInfo, Doctor, DoctorPartial, Token} from './types'
+import {
+  DoctorConfidentInfo,
+  DoctorPublicInfo,
+  DoctorTechnicalInfo,
+  Doctor,
+  DoctorPartial,
+  Token,
+  GetStats,
+} from './types'
 import {API_URL} from './API_URL'
 
 const api = axios.create({
@@ -91,4 +99,12 @@ export const loginForAccessToken = async (username: string, password: string): P
 // Hello Index
 export const helloIndex = async (): Promise<void> => {
   await api.get<void>('/')
+}
+
+export const getStats = async (token: string): Promise<GetStats> => {
+  const response = await api.get<GetStats>('api/v1/stats', {
+    headers: {Authorization: `Bearer ${token}`},
+  })
+
+  return response.data
 }

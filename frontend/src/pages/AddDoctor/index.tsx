@@ -7,7 +7,8 @@ import {createDoctor} from '../../api'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../storage/store'
 import {useState} from 'react'
-import {DoctorTechnicalInfo} from '../../api/types'
+import {DoctorTechnicalInfo, WorkloadType} from '../../api/types'
+import {workloadTypes} from '../../api/translates'
 
 export const AddDoctor = () => {
   const c = useStyles()
@@ -15,23 +16,36 @@ export const AddDoctor = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [phone, setPhone] = useState('')
   const account = useSelector((state: RootState) => state.account)
+  const [workload, setWorkload] = useState(
+    workloadTypes.reduce(
+      (acc, type) => {
+        acc[type] = false
+        return acc
+      },
+      {} as Record<string, boolean>
+    )
+  )
 
   const sendCreateDoctor = () => {
     if (!account.token) {
       return
     }
 
+    // eslint-disable-next-line no-console
+    console.log(workload)
+
     const doctor: DoctorTechnicalInfo = {
       full_name: name,
       email,
       password,
-      phone_number: '+79995680017',
+      phone_number: phone,
       role: 'doctor',
       account_status: 'ok',
       skills: {
         primary_skill: 'ct',
-        secondary_skills: ['mri'],
+        secondary_skills: Object.keys(workload) as WorkloadType[],
       }, //fix
       specialization: '',
       position: '',
@@ -63,6 +77,8 @@ export const AddDoctor = () => {
           <p className={c.text}>Специализация</p>
           <Dropdown text='Врач-рентолог' className={c.dropdown} />
           <h3 className={c.h3}>Данные личного кабинета врача</h3>
+          <p className={c.text}>Номер телефона</p>
+          <Input placeholder='Введите номер' text={phone} setText={setPhone} />
           <p className={c.text}>Email</p>
           <Input placeholder='Введите почту' text={email} setText={setEmail} />
           <p className={c.text}>Пароль</p>
@@ -76,7 +92,9 @@ export const AddDoctor = () => {
           </div>
           <BlueButton text='Выбрать смены' className={c.button} />
           <p className={classNames(c.text, c.textMargin)}>Компетенции</p>
-          <Check text='Проведение рентгенологических  исследований (в том числе  компьютерных томографических) и  магнитно-резонанснотомографических исследований  органов и систем организма  человека' />
+          {workloadTypes.map((el, i) => (
+            <Check text={el} key={i} setWorkload={setWorkload} workload={workload} />
+          ))}
         </div>
       </div>
     </div>

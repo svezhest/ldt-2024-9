@@ -5,17 +5,27 @@ import {FC, useState} from 'react'
 type CheckProps = {
   readOnly?: boolean
   text?: string
+  workload?: Record<string, boolean>
+  setWorkload?: (arg: Record<string, boolean>) => void
 }
 
-export const Check: FC<CheckProps> = ({readOnly, text}) => {
+export const Check: FC<CheckProps> = ({readOnly, text, workload, setWorkload}) => {
   const c = useStyles()
-  const [checked, setChecked] = useState(true)
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  const [checked, setChecked] = useState(Boolean(workload[`${text}`]))
 
   const toggleCheck = () => {
     if (readOnly) {
       return
     }
     setChecked(!checked)
+    if (workload && setWorkload && text) {
+      setWorkload({...workload, [text]: checked})
+
+      // eslint-disable-next-line no-console
+      console.log(workload[text])
+    }
   }
 
   return (

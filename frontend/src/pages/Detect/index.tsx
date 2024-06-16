@@ -1,9 +1,29 @@
 import classNames from 'classnames'
 import {Arrows} from '../../ui-kit'
 import {createUseStyles} from 'react-jss'
+import {useEffect, useState} from 'react'
+import {getStats} from '../../api'
+import {useSelector} from 'react-redux'
+import {RootState} from '../../storage/store'
+import {GetStats} from '../../api/types'
 
 export const Detect = () => {
   const c = useStyles()
+  const account = useSelector((state: RootState) => state.account)
+  const [stats, setStats] = useState<GetStats | null>(null)
+
+  useEffect(() => {
+    if (account.token) {
+      getStats(account.token).then((res) => {
+        // eslint-disable-next-line no-console
+        console.log(res.stats)
+        setStats(res.stats as unknown as GetStats)
+        // eslint-disable-next-line no-console
+        console.log(Array.isArray(stats), stats)
+        return
+      })
+    }
+  }, [account.token])
 
   return (
     <div className={c.root}>
@@ -19,34 +39,28 @@ export const Detect = () => {
           <td className={c.tableHeadingCell}>Нужно сделать исследований (прогноз)</td>
           <td className={c.tableHeadingCell}>Рекомендация</td>
         </tr>
-        <tr className={classNames(c.tableRow, c.sickness)}>
-          <td className={c.tableCell}>КТ</td>
-          <td className={c.tableCell}>200</td>
-          <td className={c.tableCell}>4000</td>
-          <td className={c.tableCell}>5000</td>
-          <td className={c.tableCell}>Переназначить врачей</td>
-        </tr>
-        <tr className={classNames(c.tableRow, c.work)}>
-          <td className={c.tableCell}>КТ</td>
-          <td className={c.tableCell}>200</td>
-          <td className={c.tableCell}>4000</td>
-          <td className={c.tableCell}>5000</td>
-          <td className={c.tableCell}>Переназначить врачей</td>
-        </tr>
-        <tr className={c.tableRow}>
-          <td className={c.tableCell}>КТ</td>
-          <td className={c.tableCell}>1000</td>
-          <td className={c.tableCell}>4000</td>
-          <td className={c.tableCell}>4000</td>
-          <td className={c.tableCell}>-</td>
-        </tr>
-        <tr className={classNames(c.tableRow, c.vacation)}>
-          <td className={c.tableCell}>Рентген</td>
-          <td className={c.tableCell}>200</td>
-          <td className={c.tableCell}>4000</td>
-          <td className={c.tableCell}>5000</td>
-          <td className={c.tableCell}>Вызвать врача из отпуска</td>
-        </tr>
+        {Array.isArray(stats) &&
+          stats.map((el, i) => (
+            <tr
+              key={i}
+              className={classNames(
+                c.tableRow,
+                el.needed_prediction < el.done_prediction
+                  ? c.work
+                  : el.needed_prediction / 2 > el.done_prediction
+                    ? c.sickness
+                    : el.needed_prediction > el.done_prediction
+                      ? c.vacation
+                      : null
+              )}
+            >
+              <td className={c.tableCell}>{el.workload_type}</td>
+              <td className={c.tableCell}>{el.done}</td>
+              <td className={c.tableCell}>{el.done_prediction}</td>
+              <td className={c.tableCell}>{el.needed_prediction}</td>
+              <td className={c.tableCell}>{el.recommendation}</td>
+            </tr>
+          ))}
       </table>
     </div>
   )
