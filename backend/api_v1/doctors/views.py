@@ -51,7 +51,7 @@ async def create_doctor(
     return await crud.create_doctor(session=session, doctor_in=doctor_in)
 
 
-@router.get("/{doctor_id}/", response_model=Doctor)
+@router.get("/{doctor_id}/", response_model=DoctorConfidentInfoReturn)
 async def get_doctor(
     doctor: Doctor = Depends(doctor_by_id),
     token: str = Depends(oauth2_scheme),
