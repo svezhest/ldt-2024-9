@@ -12,6 +12,7 @@ from logic.schemas import RecommendationType
 def reconsider_schedule(
         doctors: list[DoctorConfidentInfo],
         current_progress: dict[WorkloadType, int],
+        expected_this_week: dict[WorkloadType, int],
         predictions_this_week: dict[WorkloadType, int],
         events: list[ScheduleEvent]) -> dict[WorkloadTypeDoctor, dict[RecommendationType, int]]:
     cur_date = datetime.date.today()
@@ -28,7 +29,7 @@ def reconsider_schedule(
 
     # Определение требуемых врачей
     req_doctors = {wl: max(0, np.ceil((predictions_this_week.get(
-        wl, 0) - current_progress.get(wl, 0)) / cap_per_week)) for wl in WorkloadType}
+        wl, 0) - expected_this_week.get(wl, 0)) / cap_per_week)) for wl in WorkloadType}
 
     # Инициализация рекомендаций
     recs = {wl: {rec: 0 for rec in RecommendationType}

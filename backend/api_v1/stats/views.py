@@ -74,6 +74,7 @@ async def get_stats(
     recommendations = reconsider_schedule(
         doctors,
         current_progress,
+        expected_this_week,
         predictions_this_week,
         events)
 
