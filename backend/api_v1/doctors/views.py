@@ -1,6 +1,7 @@
 import datetime
 import time
-from fastapi import APIRouter, HTTPException, status, Depends
+from typing import Annotated
+from fastapi import APIRouter, HTTPException, Path, status, Depends
 import jwt
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -53,12 +54,15 @@ async def create_doctor(
 
 @router.get("/{doctor_id}/", response_model=DoctorConfidentInfoReturn)
 async def get_doctor(
+    doctor_id: Annotated[int, Path],
     doctor: Doctor = Depends(doctor_by_id),
     token: str = Depends(oauth2_scheme),
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
     user = await authenticate(token, session)
-    authorize(user, Role.HR)
+    if (user.id != doctor_id):
+        authorize(user, Role.HR)
+
     return doctor
 
 

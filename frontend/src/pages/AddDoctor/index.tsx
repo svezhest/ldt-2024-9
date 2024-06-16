@@ -3,7 +3,7 @@ import {BlueButton, Check, Date, Dropdown, Input} from '../../ui-kit'
 import {createUseStyles} from 'react-jss'
 import {Arrow} from './Arrow'
 import classNames from 'classnames'
-import {createDoctor} from '../../api'
+import {changeAccountStatus, createDoctor} from '../../api'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../storage/store'
 import {useState} from 'react'
@@ -54,7 +54,10 @@ export const AddDoctor = () => {
       start_hours: '08:00',
     }
 
-    createDoctor(doctor, account.token).then(() => {
+    createDoctor(doctor, account.token).then((res) => {
+      if (account.token) {
+        changeAccountStatus(res.id, 'ok', account.token)
+      }
       navigate('/doctors')
     })
   }

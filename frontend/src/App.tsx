@@ -41,22 +41,18 @@ export const App = () => {
         return
       }
 
-      getMyself(token)
-        .then((res) => {
-          dispatch(
-            setAccountData({
-              id: res.id,
-              fullName: res.full_name,
-              dateOfBirth: res.date_of_birth,
-              position: res.position,
-              specialization: res.specialization,
-              token: token,
-            })
-          )
-        })
-        .then(() => {
-          // changeAccountStatus(1, 'ok', token)
-        })
+      getMyself(token).then((res) => {
+        dispatch(
+          setAccountData({
+            id: res.id,
+            fullName: res.full_name,
+            dateOfBirth: res.date_of_birth,
+            position: res.position,
+            specialization: res.specialization,
+            token: token,
+          })
+        )
+      })
     }
   }, [])
 
