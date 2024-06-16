@@ -15,7 +15,7 @@ router = APIRouter(tags=["Reports"])
 
 
 @router.get("/{workload_type}/week", response_model=int)
-async def get_total_for_week(
+async def get_total_for_this_week(
         workload_type: Annotated[WorkloadType, Path],
         token: str = Depends(oauth2_scheme),
         session: AsyncSession = Depends(db_helper.scoped_session_dependency)):
