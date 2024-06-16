@@ -23,18 +23,21 @@ router = APIRouter(tags=["Stats"])
 
 @router.get("/", response_model=Stats)
 async def get_stats(
+        date: datetime.date | None = None,
         token: str = Depends(oauth2_scheme),
         session: AsyncSession = Depends(db_helper.scoped_session_dependency)):
 
     user = await authenticate(token, session)
     authorize(user, Role.DOCTOR)
 
-    today = datetime.date.today()
-    year, week_number = date_to_year_and_week_number(today)
+    if date is None:
+        date = datetime.date.today()
+    
+    year, week_number = date_to_year_and_week_number(date)
 
     doctors = await get_doctors_confident(session)
 
-    week_start = today + datetime.timedelta(days=-today.weekday())
+    week_start = date + datetime.timedelta(days=-date.weekday())
     week_end = week_start + datetime.timedelta(days=6)
 
     current_progress = defaultdict(int)
@@ -78,7 +81,7 @@ async def get_stats(
         predictions_this_week,
         events)
 
-    today += datetime.timedelta(days=-today.weekday())
+    date += datetime.timedelta(days=-date.weekday())
 
     return Stats(stats=[
         WorkloadTypeStats(
