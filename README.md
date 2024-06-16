@@ -1,3 +1,6 @@
+Ожидается установленный npm, python3.11 + pip, sqlite3.
+Скрипты рассчитаны под Linux.
+
 ```
 cd backend
 python3.11 -m venv .venv
@@ -6,10 +9,13 @@ pip install-r requirements.txt
 fastapi dev main.py
 ```
 
-Включите vpn (по крайнер мере у меня не грузит) и откройте `http://127.0.0.1:8000/docs#/`
+В другом окне терминала:
 
-Vpn нужен для прогрузки фронта OpenAPI
+```
+cd frontend
+npm i --legacy-peer-deps
+npm run dev
+```
 
-Сырое API есть тут `http://127.0.0.1:8000/openapi.json`, для запуска vpn не нужен
-
-СРОЧНО ДЕЛАЕМ ВСЁ
+`http://127.0.0.1:8080/` -- Веб-сайт.
+`http://127.0.0.1:8000/docs#/` -- Swagger, почитать доки бэкэнда.
