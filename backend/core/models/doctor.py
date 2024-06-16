@@ -7,6 +7,7 @@ from .base import Base
 
 
 class Doctor(Base):
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
     full_name: Mapped[str]
     date_of_birth: Mapped[datetime.date]
     phone_number: Mapped[str] = mapped_column(unique=True, index=True)

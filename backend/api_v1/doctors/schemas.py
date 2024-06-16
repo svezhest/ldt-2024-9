@@ -27,11 +27,23 @@ class DoctorPublicInfo(BaseModel):
     specialization: str
 
 
+class DoctorId(BaseModel):
+    id: int
+
+
+class DoctorPublicInfoReturn(DoctorPublicInfo, DoctorId):
+    pass
+
+
 class DoctorConfidentInfo(DoctorPublicInfo, ScheduleMixin):
     phone_number: PhoneNumber
     email: EmailStr
     skills: Skills
     role: Role
+
+
+class DoctorConfidentInfoReturn(DoctorPublicInfoReturn, DoctorId):
+    pass
 
 
 class DoctorTechnicalInfo(DoctorConfidentInfo):
@@ -52,4 +64,3 @@ class DoctorPartial(DoctorTechnicalInfo):
 
 class Doctor(DoctorTechnicalInfo):
     model_config = ConfigDict(from_attributes=True)
-    id: int

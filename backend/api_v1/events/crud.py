@@ -34,7 +34,10 @@ async def get_events(
 
     result: Result = await session.execute(stmt)
 
-    return Events(events=result.scalars().all())
+    events = [ScheduleEvent(doctor_id=event.doctor_id, date=event.date,
+                            event_type=event.event_type) for event in result.scalars().all()]
+
+    return Events(events=events)
 
 
 async def create_or_update_event(
@@ -44,7 +47,8 @@ async def create_or_update_event(
     _event = await session.get(Event, (event.doctor_id, event.date))
 
     if _event is None:
-        session.add(event)
+        session.add(Event(doctor_id=event.doctor_id,
+                    date=event.date, event_type=event.event_type))
     else:
         _event.event_type = event.event_type
 

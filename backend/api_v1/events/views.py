@@ -10,8 +10,6 @@ from auth import authenticate, oauth2_scheme
 from authorize import authorize
 from core.models import db_helper
 from . import crud
-from .dependencies import doctor_by_id
-from .schemas import Doctor, DoctorPublicInfo, DoctorConfidentInfo, DoctorPartial, DoctorTechnicalInfo
 
 router = APIRouter(tags=["Events"])
 
@@ -27,9 +25,9 @@ async def get_events(
     user = await authenticate(token, session)
     authorize(user, Role.DOCTOR)
 
-    events = await crud.get_events(date_from, date_to, doctor_id, session=session)
+    events = await crud.get_events(session=session, date_from=date_from, date_to=date_to, doctor_id=doctor_id)
 
-    return user
+    return events
 
 
 @router.post("/")

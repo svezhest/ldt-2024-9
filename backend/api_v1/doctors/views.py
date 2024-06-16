@@ -11,19 +11,19 @@ from authorize import authorize
 from core.models import db_helper
 from . import crud
 from .dependencies import doctor_by_id
-from .schemas import Doctor, DoctorPublicInfo, DoctorConfidentInfo, DoctorPartial, DoctorTechnicalInfo
+from .schemas import Doctor, DoctorConfidentInfoReturn, DoctorPublicInfo, DoctorConfidentInfo, DoctorPartial, DoctorPublicInfoReturn, DoctorTechnicalInfo
 
 router = APIRouter(tags=["Doctors"])
 
 
-@router.get("/me", response_model=DoctorConfidentInfo)
+@router.get("/me", response_model=DoctorConfidentInfoReturn)
 async def get_myself(token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(db_helper.scoped_session_dependency)):
     user = await authenticate(token, session)
     user.skills = crud.deserialize_skills(user.skills)
     return user
 
 
-@router.get("/", response_model=list[DoctorPublicInfo])
+@router.get("/", response_model=list[DoctorPublicInfoReturn])
 async def get_doctors(
     token: str = Depends(oauth2_scheme),
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
@@ -35,7 +35,7 @@ async def get_doctors(
 
 @router.post(
     "/",
-    response_model=DoctorConfidentInfo,
+    response_model=DoctorConfidentInfoReturn,
     status_code=status.HTTP_201_CREATED,
 )
 async def create_doctor(
