@@ -20,3 +20,4 @@ class Doctor(Base):
     start_hours: Mapped[str]
     shifting_type: Mapped[str]
     hours_per_week: Mapped[int]
+    

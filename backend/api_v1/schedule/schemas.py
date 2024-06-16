@@ -64,8 +64,18 @@ class ScheduleMixin(BaseModel):
     shifting_type: ShiftingType
     hours_per_week: int
 
+class EventType(str, Enum):
+    VACATION = 'vacation'  # отпуск
+    FORCE_MAJEURE = 'force_majeure'  # личные обстоятельства
+    SICK = 'sick'  # болезнь
+    LEAVE = 'leave'  # отгул
+    OVERTIME = 'overtime'  # сверхурочные
 
 class ScheduleEvent(BaseModel):
     doctor_id: int
     date: datetime.date
-    work_status: WorkStatus
+    event_type: EventType
+
+
+class Events(BaseModel):
+    events: list[ScheduleEvent]

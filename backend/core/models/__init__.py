@@ -3,6 +3,7 @@ __all__ = (
     "DatabaseHelper",
     "db_helper",
     "Doctor",
+    "Event",
 )
 
 from .base import Base
