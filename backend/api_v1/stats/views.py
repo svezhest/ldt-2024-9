@@ -70,7 +70,7 @@ async def get_stats(
                 # TODO: consider redirecting doctor here
 
             for (_workload_type, proportion) in proportions[doctor.skills.primary_skill]:
-                expected_this_week[_workload_type] += corrected_hours * proportion
+                expected_this_week[_workload_type] += int(corrected_hours * proportion)
 
     predictions_this_week = predict(year, week_number)
 
