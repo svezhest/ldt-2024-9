@@ -4,6 +4,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 type CustomDevServer = {
   historyApiFallback: boolean
+  port: number
 }
 
 interface CustomWebpackConfiguration extends Configuration {
@@ -36,6 +37,7 @@ const config: CustomWebpackConfiguration = {
   },
   devServer: {
     historyApiFallback: true,
+    port: 80,
   },
   plugins: [
     new HtmlWebpackPlugin({
